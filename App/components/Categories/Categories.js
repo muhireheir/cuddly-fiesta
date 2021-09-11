@@ -7,18 +7,22 @@ import mens from './mens.jpg'
 import women from './women.jpg'
 
 
-const Categories = () => {
+const Categories = (props) => {
+  const { navigation } = props;
+  const viewGroupedProducts = (id, label) => {
+    navigation.navigate('groupedProducts', { id, label });
+  }
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => alert()}>
+      <TouchableOpacity onPress={() => viewGroupedProducts(2, 'Men')}>
         <Avatar.Image size={60} source={mens} />
         <Text style={tailwind('text-center')}>Men</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => viewGroupedProducts(5, 'Kids')}>
         <Avatar.Image size={60} source={Kids} />
         <Text style={tailwind('text-center')}>Kids</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => viewGroupedProducts(1, 'Women')}>
         <Avatar.Image size={60} source={women} />
         <Text style={tailwind('text-center')}>Women</Text>
       </TouchableOpacity>

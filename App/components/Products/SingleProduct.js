@@ -1,8 +1,15 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { ScrollView, Text, Dimensions, View, Image, TouchableOpacity, StyleSheet } from 'react-native'
-import { tailwind, getColor } from '../../Config/tailwind'
+import { ScrollView, Text, Dimensions, View, Image, TouchableOpacity, ToastAndroid } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { tailwind } from '../../Config/tailwind'
+import { ADD_TO_CART } from '../../store/action-types/cart'
+import SaveData from '../../Config/saveData'
+
+
 
 const SingleProduct = (props) => {
+  const stateObj = useSelector(state => state);
+  const dispatch = useDispatch();
   const { navigation, route } = props
   const { params } = route
   const { p_title, price, img1, colors, sizes } = params
@@ -19,6 +26,19 @@ const SingleProduct = (props) => {
   }
   const decrement = (nbr) => {
     setState('qty', nbr + 1)
+  }
+  const addTocart = (g) => {
+    if (product.size) {
+      dispatch({ type: ADD_TO_CART, payload: product });
+      if (g) {
+        return navigation.navigate('cart', {
+          screen: 'cartItems'
+        });
+      }
+      return ToastAndroid.show('Added to cart', ToastAndroid.SHORT)
+    }
+    ToastAndroid.show('Select product size', ToastAndroid.SHORT)
+
   }
 
   useLayoutEffect(() => {
@@ -75,10 +95,10 @@ const SingleProduct = (props) => {
         </View>
         <View style={tailwind('w-full relative')}>
           <View style={tailwind('w-full p-1 flex-1 flex-row')}>
-            <TouchableOpacity style={tailwind('w-1/2 bg-secondary h-11 flex-1 flex-row justify-center items-center')} >
+            <TouchableOpacity onPress={() => addTocart(false)} style={tailwind('w-1/2 bg-secondary h-11 flex-1 flex-row justify-center items-center')} >
               <Text style={tailwind('font-bold text-primary')}>ADD TO CART</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={tailwind('w-1/2 bg-primary h-11 flex-1 flex-row justify-center items-center')} >
+            <TouchableOpacity onPress={() => addTocart(true)} style={tailwind('w-1/2 bg-primary h-11 flex-1 flex-row justify-center items-center')} >
               <Text style={tailwind('font-bold text-white')}>BUY NOW</Text>
             </TouchableOpacity>
 

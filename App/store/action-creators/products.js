@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { GET_ALL_PRODUCTS, GETTING_ALL_PRODUCTS } from '../action-types/products';
-const API_URL = 'https://sibling-api.herokuapp.com/api/products'
+
 
 const getAllProducts = () => (dispatch) => {
+  const API_URL = `${process.env.API_URL}/products`;
+
   dispatch({
     type: GETTING_ALL_PRODUCTS,
     payload: { loading: true }

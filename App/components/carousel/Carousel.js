@@ -38,7 +38,7 @@ class CarouselExample extends Component {
                 autoplay
               >
                 {this.props.products.data.slice(3, 9).map((product, key) => (
-                  <View key={key} style={[{ backgroundColor: 'blue' }, this.state.size]}>
+                  <View key={key} style={[this.state.size]}>
                     <Image style={this.state.size} source={{
                       uri: product.img1
                     }} />
